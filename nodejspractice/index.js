@@ -1,17 +1,9 @@
-var http = require('http');
-var url = require('url');
-var fs = require('fs');
+var events = require('events');
 
-http.createServer(function(req,res){
-    var q=url.parse(req.url,true)
-    var path="."+q.pathname
-    fs.readFile(path,function(err,data){
-        if(err){
-            res.writeHead(404,{'Content-Type':'text/html'})
-            return res.end("page not found");
-        }
-        res.writeHead(200,{'Content-Type':'text/html'})
-        res.write(data);
-        return res.end();
-    });
-}).listen(8080)
+var myEmitter = new events.EventEmitter();
+
+myEmitter.on('dummy',function(msg){
+    console.log(msg);
+});
+
+myEmitter.emit('dummy','emitter is emitted and caught')

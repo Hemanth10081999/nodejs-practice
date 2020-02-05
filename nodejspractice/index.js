@@ -1,9 +1,23 @@
 var events = require('events');
+var util = require('util');
 
-var myEmitter = new events.EventEmitter();
+var Person = function(name){
+    this.name=name;
+};
 
-myEmitter.on('dummy',function(msg){
-    console.log(msg);
+util.inherits(Person,events.EventEmitter)
+
+var Hemanth = new Person('Hemanth');
+var Amirtha = new Person('Amirtha');
+var Ari = new Person('Ari');
+var names = [Hemanth , Amirtha , Ari]
+
+names.forEach(function(person){
+    person.on('speak',function(msg){
+        console.log(person.name+" : "+msg)
+    });
 });
 
-myEmitter.emit('dummy','emitter is emitted and caught')
+Hemanth.emit('speak','hi guys how are you');
+Ari.emit('speak','i am fine');
+Amirtha.emit('speak','having fun ah');
